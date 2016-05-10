@@ -4,9 +4,9 @@ import chatServer.ChatSession;
 import chatServer.users.User;
 import settings.Settings;
 
-public class LoginCommand extends Command {
-
-	public LoginCommand (String username, String password) throws Exception
+public class RegisterCommand extends Command {
+	
+	public RegisterCommand (String username,String email, String password) throws Exception
 	{
 		if(username == null)
 		{
@@ -14,13 +14,24 @@ public class LoginCommand extends Command {
 		}
 		if(username.length() < 1)
 		{
-			throw new Exception("username length must be grater then 1");
+			throw new Exception("username field required to login!");
 		}
 		this.username = username;
 		
-		if(Settings.passwordRequiredForLogin()){
+		//TODO email required for register?
+		
+		if(Settings.emailRequiredForRegister()){
+			if(email == null){
+				throw new Exception("email fild required to register!");
+			}
+			//TODO email valid check here!!!
+			
+			this.email = email;
+		}
+		
+		if(Settings.passwordRequiredForRegister()){
 			if(password == null){
-				throw new Exception("password fild required to login!");
+				throw new Exception("password fild required to register!");
 			}
 			if(password.length() < 6){
 				throw new Exception("password length must be grater than 6");
@@ -31,24 +42,23 @@ public class LoginCommand extends Command {
 	
 	public String username = null;
 	public String password = null;
+	public String email = null;
 	
 	@Override
 	public void execute(ChatSession cs) throws Exception{
-		//TODO implement login command!
+		//TODO implement register command!
 		
 		User user = new User();
 		user.username = username;
 		
 		cs.user = user;
 		
-		cs.out("INFO Login success!!!");
+		cs.out("INFO Register success!!!");
 	}
 
 	@Override
 	public String permissionsRequired() {
 		
-		return "l";
+		return "r";
 	}
-	
-	
 }

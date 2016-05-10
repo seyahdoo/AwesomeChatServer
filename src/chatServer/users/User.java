@@ -8,7 +8,9 @@ public class User {
 	public String username;
 	public String email;
 	public String token;
-	public String authenticationString;
+	public String permissions;
 	
+	//for every channel????
+	//public String relativePermissions;
 	
 }

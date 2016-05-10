@@ -12,22 +12,15 @@ public class ChatServer {
 	public ChatServer()
 	{
 		this.sessionManager = new SessionManager();
-		this.identityFilter = new IdentityFilter();
-		this.authorizationFilter = new AuthorizationFilter();
+		this.permissionFilter = new PermissionFilter();
 		this.commandParser = new CommandParser();
 	}
 	
-	//Command from user
-	//Command class
-	
-	//Users do disconnect after some time!
 	private SessionManager sessionManager;
-	private IdentityFilter identityFilter;
-	private AuthorizationFilter authorizationFilter;
+	private PermissionFilter permissionFilter;
 	private CommandParser commandParser;
 	
 	public void sessionOpened(IoSession session) throws Exception {
-		//open chatsession for session
 		ChatSession cs = new ChatSession(session);
 		sessionManager.add(session, cs);
 		if(Settings.welcomeText().length()>0)
@@ -38,6 +31,8 @@ public class ChatServer {
 	}
 	
 	public void sessionClosed(IoSession session) throws Exception {
+		//todo! Users do disconnect after some time!
+		
 		//close chat session for session
 		sessionManager.getChatSession(session).close();
 	}
@@ -46,8 +41,7 @@ public class ChatServer {
 		ChatSession cs = sessionManager.getChatSession(session);
 		Command command = commandParser.parse(str);
 		
-		identityFilter.filter(cs, command);
-		authorizationFilter.filter(cs, command);
+		permissionFilter.filter(cs, command);
 		
 		command.execute(cs);
 		
@@ -57,7 +51,6 @@ public class ChatServer {
 		
 		session.write("ERROR "+exeption.getMessage());
 	}
-
 	
-
+	
 }
