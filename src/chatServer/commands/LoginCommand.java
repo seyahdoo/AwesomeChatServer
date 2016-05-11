@@ -35,18 +35,19 @@ public class LoginCommand extends Command {
 	@Override
 	public void execute(ChatSession cs) throws Exception{
 		//TODO implement login command!
-		
-		User user = new User();
+		//get from database!!!
+		User user = new User(cs);
 		user.username = username;
 		
 		cs.user = user;
 		
-		cs.out("INFO Login success!!!");
+		//todo Respond() !!!
+		//cs.out("INFO Login success!!!");
+		cs.out("OK!");
 	}
 
 	@Override
-	public String permissionsRequired() {
-		
+	public String globalPermissionsRequired() {
 		return "l";
 	}
 	

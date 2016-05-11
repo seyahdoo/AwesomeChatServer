@@ -15,6 +15,13 @@ public class ChatSession {
 	
 	private IoSession session;
 	public  User user;
+	public MessageType messageType;
+	
+	public enum MessageType
+	{
+		JSON,
+		PLAIN
+	}
 	
 	public ChatSession out(String message)
 	{

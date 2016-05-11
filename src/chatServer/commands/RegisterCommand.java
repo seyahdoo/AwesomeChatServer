@@ -48,16 +48,18 @@ public class RegisterCommand extends Command {
 	public void execute(ChatSession cs) throws Exception{
 		//TODO implement register command!
 		
-		User user = new User();
+		User user = new User(cs);
 		user.username = username;
 		
 		cs.user = user;
 		
-		cs.out("INFO Register success!!!");
+		//todo respond
+		//cs.out("INFO Register success!!!");
+		cs.out("OK!");
 	}
 
 	@Override
-	public String permissionsRequired() {
+	public String globalPermissionsRequired() {
 		
 		return "r";
 	}

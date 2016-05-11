@@ -44,7 +44,6 @@ public class ChatServer {
 		permissionFilter.filter(cs, command);
 		
 		command.execute(cs);
-		
 	}
 	
 	public void exceptionCaught(IoSession session, Throwable exeption) throws Exception {
