@@ -1,6 +1,7 @@
-package chatServer.commands;
+package chatServer.commands.Authentication;
 
 import chatServer.ChatSession;
+import chatServer.commands.Command;
 import chatServer.users.User;
 import settings.Settings;
 
@@ -8,6 +9,8 @@ public class RegisterCommand extends Command {
 	
 	public RegisterCommand (String username,String email, String password) throws Exception
 	{
+		super(null,null);
+		
 		if(username == null)
 		{
 			throw new Exception("username field required to login!");
@@ -58,9 +61,5 @@ public class RegisterCommand extends Command {
 		cs.out("OK!");
 	}
 
-	@Override
-	public String globalPermissionsRequired() {
-		
-		return "r";
-	}
+
 }

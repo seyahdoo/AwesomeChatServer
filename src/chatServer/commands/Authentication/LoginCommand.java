@@ -1,13 +1,17 @@
-package chatServer.commands;
+package chatServer.commands.Authentication;
 
+import java.util.Arrays;
 import chatServer.ChatSession;
-import chatServer.users.User;
+import chatServer.commands.Command;
+import chatServer.permissions.Permittable;
 import settings.Settings;
 
 public class LoginCommand extends Command {
 
 	public LoginCommand (String username, String password) throws Exception
 	{
+		super(Arrays.asList(Permittable.LOGIN),null);
+		
 		if(username == null)
 		{
 			throw new Exception("username field required to login!");
@@ -27,6 +31,7 @@ public class LoginCommand extends Command {
 			}
 			this.password = password;
 		}
+		
 	}
 	
 	public String username = null;
@@ -36,20 +41,20 @@ public class LoginCommand extends Command {
 	public void execute(ChatSession cs) throws Exception{
 		//TODO implement login command!
 		//get from database!!!
-		User user = new User(cs);
-		user.username = username;
 		
-		cs.user = user;
+		//old test code
+		//User user = new User(cs);
+		//user.username = username;
+		//cs.user = user;
+		/////
+		
+		//new plain test code
+		cs.user.username = username;
+		////
 		
 		//todo Respond() !!!
 		//cs.out("INFO Login success!!!");
 		cs.out("OK!");
 	}
-
-	@Override
-	public String globalPermissionsRequired() {
-		return "l";
-	}
-	
 	
 }

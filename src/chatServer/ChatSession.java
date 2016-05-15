@@ -11,6 +11,8 @@ public class ChatSession {
 		this.session = session;
 		
 		//TODO get default user...
+		user = new User(this);
+		
 	}
 	
 	private IoSession session;

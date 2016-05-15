@@ -1,13 +1,20 @@
-package chatServer.commands;
+package chatServer.commands.channel;
 
+import java.util.Arrays;
 import chatServer.ChatSession;
 import chatServer.channels.Channel;
 import chatServer.channels.ChannelManager;
+import chatServer.commands.Command;
+import chatServer.permissions.Permittable;
 
 public class LeaveChannelCommand extends Command {
 	
 	public LeaveChannelCommand(String channelName) throws Exception
 	{
+		super(Arrays.asList(Permittable.LEAVEANYCHANNEL),
+				Arrays.asList(Permittable.LEAVETHISCHANNEL)
+				);
+		
 		if(channelName == null)
 		{
 			throw new Exception("channelname field required to leave channel!");
@@ -18,16 +25,13 @@ public class LeaveChannelCommand extends Command {
 		}
 		this.channelName = channelName;
 		
+		this.target = ChannelManager.get(channelName);
+		
 	}
 	
 	private String channelName;
-	
-	@Override
-	public String globalPermissionsRequired() {
-		
-		return "l";
-	}
 
+	
 	@Override
 	public void execute(ChatSession cs) throws Exception {
 		

@@ -3,6 +3,14 @@ package chatServer.commands;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import chatServer.commands.Administration.IamGodCommand;
+import chatServer.commands.Authentication.LoginCommand;
+import chatServer.commands.Authentication.RegisterCommand;
+import chatServer.commands.channel.CreateChannelCommand;
+import chatServer.commands.channel.JoinChannelCommand;
+import chatServer.commands.channel.LeaveChannelCommand;
+import chatServer.commands.channel.SayChannelCommand;
+
 public class CommandParser {
 	
 	public CommandParser()
@@ -25,6 +33,8 @@ public class CommandParser {
 		//TODO parse command!
 		//if str[0] == '{' json decode
 		//else normal decode
+		//command=login&username=seyahdoo&password=abuzittin!!!
+		//LOGIN seyahdoo abuzittin!!!
 		if(str.charAt(0) == '{')
 		{
 			JSONObject json = (JSONObject) jParser.parse(str);
@@ -53,7 +63,7 @@ public class CommandParser {
 					
 				case "whoami"		:break; //return user info
 				
-				case "iamgod"		:break; //works only once per every server
+				case "iamgod"		:return new IamGodCommand(); //works only once per every server
 				
 				case "iamreporter"	:break; //to dashboard!!!
 					

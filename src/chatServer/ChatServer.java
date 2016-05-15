@@ -1,9 +1,11 @@
 package chatServer;
 
+
 import org.apache.mina.core.session.IoSession;
 
 import chatServer.commands.Command;
 import chatServer.commands.CommandParser;
+import chatServer.permissions.PermissionFilter;
 import settings.Settings;
 
 
@@ -19,6 +21,8 @@ public class ChatServer {
 	private SessionManager sessionManager;
 	private PermissionFilter permissionFilter;
 	private CommandParser commandParser;
+	
+	//TODO auto disconnect PING->if(PONG) cont(); else disconnect()
 	
 	public void sessionOpened(IoSession session) throws Exception {
 		ChatSession cs = new ChatSession(session);

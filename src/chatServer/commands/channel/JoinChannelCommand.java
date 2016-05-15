@@ -1,13 +1,21 @@
-package chatServer.commands;
+package chatServer.commands.channel;
+
+import java.util.Arrays;
 
 import chatServer.ChatSession;
 import chatServer.channels.Channel;
 import chatServer.channels.ChannelManager;
+import chatServer.commands.Command;
+import chatServer.permissions.Permittable;
 
 public class JoinChannelCommand extends Command {
 
 	public JoinChannelCommand(String channelName) throws Exception
 	{
+		super(	Arrays.asList(Permittable.JOINANYCHANNEL),
+				Arrays.asList(Permittable.JOINTHISCHANNEL)
+				);
+		
 		if(channelName == null)
 		{
 			throw new Exception("channelname field required to join channel!");
@@ -17,14 +25,13 @@ public class JoinChannelCommand extends Command {
 			throw new Exception("channelname length must be grater then 1 to join channel");
 		}
 		this.channelName = channelName;
+	
+		this.target = ChannelManager.get(channelName);
+		
 	}
 	
 	private String channelName;
-	
-	@Override
-	public String globalPermissionsRequired() {
-		return "";
-	}
+
 
 	@Override
 	public void execute(ChatSession cs) throws Exception {

@@ -1,14 +1,22 @@
-package chatServer.commands;
+package chatServer.commands.channel;
 
+import java.util.Arrays;
 import chatServer.ChatSession;
 import chatServer.channels.Channel;
 import chatServer.channels.ChannelManager;
+import chatServer.commands.Command;
+import chatServer.permissions.Permittable;
 import chatServer.users.User;
 
 public class SayChannelCommand extends Command {
 	
 	public SayChannelCommand(String channelName,String message) throws Exception
 	{
+		super(	Arrays.asList(Permittable.SAYTOANYCHANNEL),
+				Arrays.asList(Permittable.SAYTOTHISCHANNEL)
+			
+				);
+		
 		if(channelName == null)
 		{
 			throw new Exception("channelname field required to say in channel!");
@@ -31,17 +39,12 @@ public class SayChannelCommand extends Command {
 		}
 		this.message = message;
 		
-		
+		this.target = ChannelManager.get(channelName);
 	}
 	
 	private String channelName;
 	private String message;
 	
-	@Override
-	public String globalPermissionsRequired() {
-		// TODO Auto-generated method stub
-		return "s";
-	}
 
 	@Override
 	public void execute(ChatSession cs) throws Exception {
