@@ -2,10 +2,12 @@ package chatServer;
 
 
 import org.apache.mina.core.session.IoSession;
+import org.json.simple.JSONObject;
 
 import chatServer.commands.Command;
 import chatServer.commands.CommandParser;
 import chatServer.permissions.PermissionFilter;
+import logging.log;
 import settings.Settings;
 
 
@@ -13,6 +15,9 @@ public class ChatServer {
 	
 	public ChatServer()
 	{
+		//fix potential error!
+		Settings.Load();
+		
 		this.sessionManager = new SessionManager();
 		this.permissionFilter = new PermissionFilter();
 		this.commandParser = new CommandParser();
@@ -27,9 +32,11 @@ public class ChatServer {
 	public void sessionOpened(IoSession session) throws Exception {
 		ChatSession cs = new ChatSession(session);
 		sessionManager.add(session, cs);
-		if(Settings.welcomeText().length()>0)
-		{
-			cs.out(Settings.welcomeText());
+		
+		try {
+			cs.out(Settings.getString("welcomeText"));
+		} catch (Exception e) {
+			log.debug("no welcome text!");
 		}
 		
 	}
@@ -48,12 +55,22 @@ public class ChatServer {
 		permissionFilter.filter(cs, command);
 		
 		command.execute(cs);
+		
+		//todo delete this
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void exceptionCaught(IoSession session, Throwable exeption) throws Exception {
 		
-		session.write("ERROR "+exeption.getMessage());
+		JSONObject json = new JSONObject();
+		
+		json.put("command", "errormessage");
+		json.put("message", exeption.getMessage());
+		
+		log.warning("Exception cought! message: "+exeption.getMessage());
+		session.write(json.toJSONString());
 	}
+	
 	
 	
 }

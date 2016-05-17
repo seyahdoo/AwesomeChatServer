@@ -23,7 +23,7 @@ public class RegisterCommand extends Command {
 		
 		//TODO email required for register?
 		
-		if(Settings.emailRequiredForRegister()){
+		if(Settings.getBool("emailRequiredForRegister")){
 			if(email == null){
 				throw new Exception("email fild required to register!");
 			}
@@ -32,7 +32,7 @@ public class RegisterCommand extends Command {
 			this.email = email;
 		}
 		
-		if(Settings.passwordRequiredForRegister()){
+		if(Settings.getBool("passwordRequiredForRegister")){
 			if(password == null){
 				throw new Exception("password fild required to register!");
 			}

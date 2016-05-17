@@ -1,10 +1,15 @@
 package chatServer.users;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+
 
 import chatServer.ChatSession;
 import chatServer.permissions.Permittable;
@@ -19,9 +24,9 @@ public class User {
 		globalPermissions = Arrays.asList(
 				Permittable.DOCOMMAND,
 				//Permittable.CREATECHANNEL,
-				Permittable.JOINANYCHANNEL,
-				Permittable.LEAVEANYCHANNEL,
-				Permittable.SAYTOANYCHANNEL,
+				//Permittable.JOINCHANNEL,
+				//Permittable.LEAVECHANNEL,
+				//Permittable.SAYTOCHANNEL,
 				Permittable.LOGIN,
 				Permittable.REGISTER
 				);
@@ -53,13 +58,14 @@ public class User {
 	{
 		
 		//TODO give permission to say or join to user as it tries to join???
+		//TODO do this for channel
 		if(!localPermissions.containsKey(obj))
 		{
 			List<Permittable> permissions = Arrays.asList(
-					Permittable.JOINTHISCHANNEL,
-					Permittable.LEAVETHISCHANNEL,
-					Permittable.SAYTOTHISCHANNEL
-					);;
+					Permittable.JOINCHANNEL,
+					Permittable.LEAVECHANNEL,
+					Permittable.SAYTOCHANNEL
+					);
 			
 			localPermissions.put(obj, permissions);
 			
@@ -67,6 +73,39 @@ public class User {
 		}
 		
 		return localPermissions.get(obj);
+	}
+	
+	public class TimedPermission
+	{
+		public Date giveTime = new Date();
+		public boolean isLocal;
+		public Object localObject;
+		public Permittable permission;
+	}
+	
+	public List<TimedPermission> timedPermissions = new ArrayList<TimedPermission>();
+	
+	public void executeTimedPermissions()
+	{
+		Iterator<TimedPermission> it = timedPermissions.iterator();
+		while(it.hasNext()){
+			TimedPermission tp = it.next();
+			if(tp.giveTime.after(Calendar.getInstance().getTime())){
+				if(tp.isLocal){
+					if(!localPermissions.containsKey(tp.localObject)){
+						localPermissions.put(tp.localObject, Arrays.asList(tp.permission));
+					}else{	
+						if(!localPermissions.get(tp.localObject).contains(tp.permission))
+							localPermissions.get(tp.localObject).add(tp.permission);
+					}
+				}else{
+					if(!globalPermissions.contains(tp.permission))
+						globalPermissions.add(tp.permission);
+				}
+				it.remove();
+			}
+		}
+	
 	}
 	
 }

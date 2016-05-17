@@ -1,24 +1,61 @@
 package settings;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class Settings {
 	
-	
-	public static String welcomeText()
+	public static void Load()
 	{
-		return "Welcome bla bala!!!";
+		setString("welcomeText", "Welcome bla blalaala!!!");
+		
+		setBool("passwordRequiredForLogin", true);
+		setBool("passwordRequiredForRegister", true);
+		setBool("emailRequiredForRegister", true);
+		setBool("isIamGodUsed",false);		
 	}
 	
-	public static boolean passwordRequiredForLogin()
+	public static void Save()
 	{
-		return true;
+		
 	}
-
-	public static boolean passwordRequiredForRegister() {
-		return true;
+	
+	//string to string map!
+	private static HashMap<String, String> _strings = new HashMap<String,String>();
+	public static String getString(String key) throws Exception
+	{
+		if(!_strings.containsKey(key))
+		{
+			throw new Exception("No key for "+key+" in Settings");
+		}
+		return _strings.get(key);
 	}
-
-	public static boolean emailRequiredForRegister() {
-		return true;
+	public static void setString(String key,String value)
+	{
+		if(_strings.containsKey(key))
+			_strings.remove(key);
+		
+		_strings.put(key, value);
+	}
+	
+	//if contains true!!!
+	private static HashSet<String> _bools = new HashSet<String>();
+	public static boolean getBool(String key)
+	{
+		return _bools.contains(key);
+	}
+	public static void setBool(String key,boolean value)
+	{
+		if(value != getBool(key))
+		{
+			if(value)
+			{
+				_bools.add(key);
+			}else
+			{
+				_bools.remove(key);
+			}
+		}
 	}
 	
 }

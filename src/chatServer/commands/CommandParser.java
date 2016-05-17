@@ -23,7 +23,6 @@ public class CommandParser {
 		// -> what does it do, code!
 		
 		jParser = new JSONParser();
-		
 	}
 	
 	private JSONParser jParser;
@@ -53,41 +52,33 @@ public class CommandParser {
 				case "leavechannel"	:return new LeaveChannelCommand((String)json.get("channelname"));
 				case "saychannel"	:return new SayChannelCommand((String)json.get("channelname"),(String)json.get("message"));
 					
-				case "kick"			:break;
-				case "ban"			:break;
-				case "permban"		:break;
-				case "ghostmode"	:break;
-				case "livemode"		:break;
-				case "kill"			:break;
-				case "unkill"		:break;
+				case "kick"			:break; //kick from channel for seconds
+				case "ban"			:break; //add mac to ban for seconds
+				case "permban"		:break; //add mac to bans for 99999999999999
+				case "ghostmode"	:break; //dont say when you join,quit channels!
+				case "livemode"		:break; //say when you join,quit channels
+				case "mute"			:break;//return new MuteUserCommand((String)json.get("username")); //mute on channel so he cant say anything!
+				case "unmute"		:break; //unmute!
+				//Kill ???
 					
+				
 				case "whoami"		:break; //return user info
 				
 				case "iamgod"		:return new IamGodCommand(); //works only once per every server
 				
-				case "iamreporter"	:break; //to dashboard!!!
+				case "iamreporter"	:break; //report to dash board!!!
 					
 				default:		throw new Exception("Command did not recognized!!!");
 				}
 			}else
 			{
-				throw new Exception("There must be a command key on your json!!!");
+				throw new Exception("There must be a command key on your json string!!!");
 			}
 			
-		}else
-		{
-			
-			
-			
-			
 		}
-		
-		
-		
 		
 		throw new Exception("command did not recognized!!");
 		//return new LoginCommand("TestName","TestPass");
 	}
-	
 	
 }

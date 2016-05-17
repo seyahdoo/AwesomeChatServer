@@ -12,8 +12,8 @@ public class JoinChannelCommand extends Command {
 
 	public JoinChannelCommand(String channelName) throws Exception
 	{
-		super(	Arrays.asList(Permittable.JOINANYCHANNEL),
-				Arrays.asList(Permittable.JOINTHISCHANNEL)
+		super(	Arrays.asList(Permittable.JOINCHANNEL),
+				Arrays.asList(Permittable.JOINCHANNEL)
 				);
 		
 		if(channelName == null)

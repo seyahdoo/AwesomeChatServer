@@ -8,7 +8,7 @@ import java.util.logging.SimpleFormatter;
 
 public class log {
 	
-private static Logger LOGGER = getfirst();
+	private static Logger LOGGER = getfirst();
 	
 	private static Logger getfirst()
 	{

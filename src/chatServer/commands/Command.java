@@ -10,6 +10,7 @@ public abstract class Command {
 	
 	public Command(List<Permittable>global,List<Permittable>local)
 	{
+		
 		if(global == null)
 		{
 			globalPermissionsRequired = Arrays.asList();

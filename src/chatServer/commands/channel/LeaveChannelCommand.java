@@ -11,8 +11,8 @@ public class LeaveChannelCommand extends Command {
 	
 	public LeaveChannelCommand(String channelName) throws Exception
 	{
-		super(Arrays.asList(Permittable.LEAVEANYCHANNEL),
-				Arrays.asList(Permittable.LEAVETHISCHANNEL)
+		super(Arrays.asList(Permittable.LEAVECHANNEL),
+				Arrays.asList(Permittable.LEAVECHANNEL)
 				);
 		
 		if(channelName == null)

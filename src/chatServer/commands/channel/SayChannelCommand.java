@@ -1,6 +1,9 @@
 package chatServer.commands.channel;
 
 import java.util.Arrays;
+
+import org.json.simple.JSONObject;
+
 import chatServer.ChatSession;
 import chatServer.channels.Channel;
 import chatServer.channels.ChannelManager;
@@ -12,9 +15,8 @@ public class SayChannelCommand extends Command {
 	
 	public SayChannelCommand(String channelName,String message) throws Exception
 	{
-		super(	Arrays.asList(Permittable.SAYTOANYCHANNEL),
-				Arrays.asList(Permittable.SAYTOTHISCHANNEL)
-			
+		super(	Arrays.asList(Permittable.SAYTOCHANNEL),
+				Arrays.asList(Permittable.SAYTOCHANNEL)
 				);
 		
 		if(channelName == null)
@@ -46,6 +48,7 @@ public class SayChannelCommand extends Command {
 	private String message;
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(ChatSession cs) throws Exception {
 		
@@ -57,8 +60,17 @@ public class SayChannelCommand extends Command {
 		
 		for (User user : channel.users) {
 			
+			JSONObject json = new JSONObject();
+			
+			json.put("command", "channelmessage");
+			json.put("channelname", ((Channel)target).Name);
+			json.put("username", cs.user.username);
+			json.put("message", message);
+			
+			user.chatSession.out(json.toJSONString());
+			
 			//Respond!!! fromchannel,fromuser,message
-			user.chatSession.out(cs.user.username+":"+message);
+			//user.chatSession.out(cs.user.username+":"+message);
 		}
 		
 		//Respond sender OK!

@@ -22,7 +22,7 @@ public class LoginCommand extends Command {
 		}
 		this.username = username;
 		
-		if(Settings.passwordRequiredForLogin()){
+		if(Settings.getBool("passwordRequiredForLogin")){
 			if(password == null){
 				throw new Exception("password fild required to login!");
 			}
